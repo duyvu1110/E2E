@@ -84,8 +84,8 @@ def proc_raw_offset(offset_spans: str, text, data_path):
         offsets = re.findall(r'([0-9]+)&(\S+)', offset_spans) # type(offset_spans):str
     # [7&&all, 8&&of, 9&&the, 10&&Nikon, 11&&DLSR, 12&&models]
 
-    return int(offsets[0][0]), int(offsets[-1][0]) # obtain start token and end token for each span, [('5', '幸'), ('6', '福'), ('7', '使'), ('8', '者')]--> (5,8)
-    # return int(offsets[0][0]) -1, int(offsets[-1][0]) -1 # 等同于Camera从0开始计数
+    # return int(offsets[0][0]), int(offsets[-1][0]) # obtain start token and end token for each span, [('5', '幸'), ('6', '福'), ('7', '使'), ('8', '者')]--> (5,8)
+    return int(offsets[0][0]) -1, int(offsets[-1][0]) -1 # 等同于Camera从0开始计数
 
 
 def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_id):
