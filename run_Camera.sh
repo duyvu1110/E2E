@@ -50,7 +50,7 @@ do
         --stage=two \
         --multi_heads=5 \
         --method_stage=method_one \
-        --data_type=five \
+        --data_type="quintuple" \
 
     done
 done
