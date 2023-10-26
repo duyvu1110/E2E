@@ -28,14 +28,14 @@ def set_seed(seed):
 def convert_data(data_type,file_name = ''):
     folder_path = ''
     if data_type == 'train':
-        folder_path = '../data/smartphone/VLSP2023_ComOM_training_v2'
-        des_file = '../data/smartphone/train.txt'
+        folder_path = './data/smartphone/VLSP2023_ComOM_training_v2'
+        des_file = './data/smartphone/train.txt'
     if data_type == 'test':
-        folder_path = '../data/smartphone/VLSP2023_ComOM_testing_v2'
-        des_file = '../data/smartphone/test.txt'
+        folder_path = './data/smartphone/VLSP2023_ComOM_testing_v2'
+        des_file = './data/smartphone/test.txt'
     if data_type == 'dev':
-        folder_path = '../data/smartphone/VLSP2023_ComOM_dev_v2'
-        des_file = '../data/smartphone/dev.txt'
+        folder_path = './data/smartphone/VLSP2023_ComOM_dev_v2'
+        des_file = './data/smartphone/dev.txt'
 
     
     files = os.listdir(folder_path)
