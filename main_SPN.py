@@ -167,7 +167,7 @@ if __name__ == '__main__':
     # args.output_path = os.path.join(args.output_path, datetime.today().strftime("%Y-%m-%d-%H-%M-%S")+"-"+args.data_path.split('/')[1])
     args.output_path = os.path.join(args.output_path, args.model_name +"-"+ str(args.random_seed)) # three and five have the same folder name
 
-    tokenizer = AutoTokenizer.from_pretrained(args.bert_directory)
+    tokenizer = AutoTokenizer.from_pretrained(args.bert_directory, padding='max_length', truncation=True)
     args.tokenizer = tokenizer
     
     if os.path.exists(args.output_path):
