@@ -25,8 +25,107 @@ def set_seed(seed):
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
 
-if __name__ == '__main__':
+def convert_data(data_type,file_name = ''):
+    folder_path = ''
+    if data_type == 'train':
+        folder_path = '../data/smartphone/VLSP2023_ComOM_training_v2'
+        des_file = '../data/smartphone/train.txt'
+    if data_type == 'test':
+        folder_path = '../data/smartphone/VLSP2023_ComOM_testing_v2'
+        des_file = '../data/smartphone/test.txt'
+    if data_type == 'dev':
+        folder_path = '../data/smartphone/VLSP2023_ComOM_dev_v2'
+        des_file = '../data/smartphone/dev.txt'
 
+    
+    files = os.listdir(folder_path)
+    # if (data_type == 'test'):
+    #     print(file_name)
+    #     files.clear()
+    #     files.append(file_name)
+    sentences_and_content = []
+    for file_name in files:
+        # if file_name.startswith('train_') and file_name.endswith('.txt'):
+        file_path = os.path.join(folder_path, file_name)
+        with open(file_path, 'r', encoding='utf-8') as file:
+            sections = file.read().split('\n\n')
+            for section in sections:
+                parts = section.split('\n')
+                json_format = ""
+                if len(parts) >= 2:
+                    sentence = parts[0].strip()
+                    sentence = sentence.split('\t')[1]
+                    sentence = " ".join(sentence.split())
+                    sentence += '\t' + '1'
+
+                    contents = parts[1].strip()
+                    json_contents = contents.strip().split('\n')
+                    combined_format = sentence + '\n'
+                    for i in range(1, len(parts)):
+                        for json_content in json_contents:
+                            idx_s, idx_e = (-1, -1)
+                            tuples = ""
+                            while True:
+                                idx_s = json_content.find('[', idx_s + 1)
+                                idx_e = json_content.find(']', idx_e + 1)
+
+                                if idx_s == -1:
+                                    break
+
+                                for i in json_content[idx_s:idx_e + 1]:
+                                    if i != ',':
+                                        tuples += i
+
+                                tuples += ';'
+
+                            labels = ["DIF", "EQL", "SUP+", "SUP-", "SUP", "COM+", "COM-", "COM"]
+
+                            for label in labels:
+                                if json_content.find(label) != -1:
+                                    if label == "DIF":
+                                        tuples += '[' + str(-1) + ']'
+                                    elif label == "EQL":
+                                        tuples += '[' + str(0) + ']'
+                                    elif label == "SUP+":
+                                        tuples += '[' + str(1) + ']'
+                                    elif label == "SUP-":
+                                        tuples += '[' + str(2) + ']'
+                                    elif label == "SUP":
+                                        tuples += '[' + str(3) + ']'
+                                    elif label == "COM+":
+                                        tuples += '[' + str(4) + ']'
+                                    elif label == "COM-":
+                                        tuples += '[' + str(5) + ']'
+                                    elif label == "COM":
+                                        tuples += '[' + str(6) + ']'
+                                    break
+
+                            json_format += '[' + tuples + ']' + '\n'
+                            json_format = json_format.replace('"', '')
+                    combined_format += json_format[:-1]
+                    sentences_and_content.append(combined_format)
+
+                else:
+                    sentence = parts[0].split('\t')
+                    if len(sentence) == 1:
+                        continue
+                    else:
+                        sentence = sentence[1]
+                    sentence = " ".join(sentence.split())
+                    sentence += '\t' + '0'
+                    json_format = "[[];[];[];[];[]]"
+                    combined_format = f"{sentence}\n{json_format}"
+                    sentences_and_content.append(combined_format)
+    
+    with open(des_file, 'w', encoding='utf-8') as output_file:
+        for item in sentences_and_content:
+            output_file.write(str(item) + '\n')
+
+if __name__ == '__main__':
+    convert_data('train')    
+    convert_data('dev')
+    convert_data('test')
+    
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--data_path', default='')

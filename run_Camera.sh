@@ -9,7 +9,8 @@ do
         --num_generated=60 \
         --decoder_lr=0.00004 \
         --encoder_lr=0.00002 \
-        --data_path=data/Camera-COQE \
+        --data_path=data/smartphone \
+        # --data_path=data/Camera-COQE \
         # --bert_directory="/kaggle/input/huggingface-bert/bert-base-uncased" \
         --batch_size=4 \
         --na_rel_coef=0.2 \
@@ -37,7 +38,8 @@ do
         --num_generated=60 \
         --decoder_lr=0.00004 \
         --encoder_lr=0.00002 \
-        --data_path=data/Camera-COQE \
+        --data_path=data/smartphone \
+        # --data_path=data/Camera-COQE \
         # --bert_directory="/kaggle/input/huggingface-bert/bert-base-uncased" \
         --batch_size=4 \
         --na_rel_coef=0.2 \
