@@ -113,7 +113,7 @@ def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_i
         view_offset = proc_raw_offset(tri[3], text, args.data_path)
         sentiment_label = have_triples * EMO_MAP[int(tri[4])]
 
-        if 'Camera' in args.data_path:
+        if 'smartphone' in args.data_path:
             sample['labels'].append({
                 # 'sub_start_index': tokens_output.word_to_tokens(sub_offset[0]).start,
                 'sub_start_index': get_token_span(sub_offset[0]+1, token_offset)[0],
