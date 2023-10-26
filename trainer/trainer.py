@@ -150,7 +150,8 @@ class Trainer(nn.Module):
             tokenizer = self.args.tokenizer
             text = tokenizer.decode(input_ids[start_index: end_index])
             tokens = tokenizer.convert_ids_to_tokens(input_ids[start_index: end_index])
-            return text.strip(), tokens
+            # return text.strip(), tokens
+            return tokens
 
         whole_input_ids = []
         with torch.no_grad():
@@ -180,10 +181,15 @@ class Trainer(nn.Module):
         elif self.args.stage == "two": # 五元组抽取写入txt
             for k in prediction:
                 pred_texts[k] = {
-                    'sub': [get_text(whole_input_ids[k], x.sub_start_index, x.sub_end_index) for x in prediction[k]],
-                    'obj': [get_text(whole_input_ids[k], x.obj_start_index, x.obj_end_index) for x in prediction[k]],
-                    'aspect': [get_text(whole_input_ids[k], x.aspect_start_index, x.aspect_end_index) for x in prediction[k]],
-                    'opinion': [get_text(whole_input_ids[k], x.opinion_start_index, x.opinion_end_index) for x in prediction[k]],
+                    # 'sub': [get_text(whole_input_ids[k], x.sub_start_index, x.sub_end_index) for x in prediction[k]],
+                    # 'obj': [get_text(whole_input_ids[k], x.obj_start_index, x.obj_end_index) for x in prediction[k]],
+                    # 'aspect': [get_text(whole_input_ids[k], x.aspect_start_index, x.aspect_end_index) for x in prediction[k]],
+                    # 'opinion': [get_text(whole_input_ids[k], x.opinion_start_index, x.opinion_end_index) for x in prediction[k]],
+                    # 'sentiment': [x.pred_rel for x in prediction[k]],
+                    'subject': get_text(whole_input_ids[k], prediction[k].sub_start_index, prediction[k].sub_end_index),
+                    'object': get_text(whole_input_ids[k], prediction[k].obj_start_index, prediction[k].obj_end_index),
+                    'aspect': get_text(whole_input_ids[k], prediction[k].aspect_start_index, prediction[k].aspect_end_index),
+                    'opinion': get_text(whole_input_ids[k], prediction[k].opinion_start_index, prediction[k].opinion_end_index),
                     'sentiment': [x.pred_rel for x in prediction[k]],
                 }
             # write to file
