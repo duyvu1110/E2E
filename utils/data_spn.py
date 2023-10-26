@@ -34,7 +34,7 @@ def pass_offset(data_path, offset):
     """
     Set the offset in english dataset(Camera-COQE) starts from 0.
     """
-    if 'Camera' in data_path:
+    if 'smartphone' in data_path:
         return offset - 1
     else:
         return pass_offset
@@ -44,7 +44,7 @@ def proc_raw_offset(offset_spans: str, text, data_path):
         # use 1 to denotes the empty span
         return (0, 0)
     # 7&&all 8&&of 9&&the 10&&Nikon 11&&DLSR 12&&models
-    if 'Camera' in data_path:
+    if 'smartphone' in data_path:
         offsets = re.findall(r'([0-9]+)&&(\S+)', offset_spans)
     else:
         offsets = re.findall(r'([0-9]+)&(\S+)', offset_spans) # type(offset_spans):str
@@ -77,7 +77,7 @@ def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_i
 
         sentiment_label = have_triples * EMO_MAP[int(tri[4])]
 
-        if 'Camera' in args.data_path:
+        if 'smartphone' in args.data_path:
             # stop()
             sample['labels'].append({
                 'sub_start_index': tokens_output.word_to_tokens(sub_offset[0]).start,

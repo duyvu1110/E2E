@@ -22,7 +22,7 @@ def pass_offset(data_path, offset):
     """
     Set the offset in english dataset(Camera-COQE) starts from 0.
     """
-    if 'Camera' in data_path:
+    if 'smartphone' in data_path:
         return offset - 1
     else:
         return pass_offset
@@ -74,7 +74,7 @@ def proc_raw_offset(offset_spans: str, text, data_path):
         # use 1 to denotes the empty span
         return (0, 0)
     # 7&&all 8&&of 9&&the 10&&Nikon 11&&DLSR 12&&models
-    if 'Camera' in data_path:
+    if 'smartphone' in data_path:
         offsets = re.findall(r'([0-9]+)&&(\S+)', offset_spans)
     else:
         offsets = re.findall(r'([0-9]+)&(\S+)', offset_spans) # type(offset_spans):str
@@ -91,7 +91,7 @@ def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_i
     # label_line--> re_result:去除原始数据中的[]，以及;
     raw_labels: List = [[x for x in y] for y in re_result] #一个样本存放在一个list中 
     # List of triples for a sentence
-    if 'Camera' in args.data_path:
+    if 'smartphone' in args.data_path:
         token_offset, tokens = words_to_tokens(tokenizer, text.split(" "), args.max_text_length)
         token_ids = tokenizer.convert_tokens_to_ids(tokens)
     else:
