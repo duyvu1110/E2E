@@ -38,7 +38,7 @@ do
         --decoder_lr=0.00004 \
         --encoder_lr=0.00002 \
         --data_path=data/Camera-COQE \
-        --bert_directory=/home/qtxu/PLM/bert-base-uncased \
+        --bert_directory="/kaggle/input/huggingface-bert/bert-base-uncased" \
         --batch_size=4 \
         --na_rel_coef=0.2 \
         --num_decoder_layers $layer \
