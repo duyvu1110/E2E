@@ -10,11 +10,9 @@ do
         --decoder_lr=0.00004 \
         --encoder_lr=0.00002 \
         --data_path=data/smartphone \
-        # --data_path=data/Camera-COQE \
-        # --bert_directory="/kaggle/input/huggingface-bert/bert-base-uncased" \
-        --batch_size=4 \
+        # --batch_size=4 \
         --na_rel_coef=0.2 \
-        --num_decoder_layers $layer \
+        --num_decoder_layers=$layer \
         --max_epoch=2 \
         --max_grad_norm=10 \
         --random_seed $seed \
@@ -39,11 +37,9 @@ do
         --decoder_lr=0.00004 \
         --encoder_lr=0.00002 \
         --data_path=data/smartphone \
-        # --data_path=data/Camera-COQE \
-        # --bert_directory="/kaggle/input/huggingface-bert/bert-base-uncased" \
-        --batch_size=4 \
+        # --batch_size=4 \
         --na_rel_coef=0.2 \
-        --num_decoder_layers $layer \
+        --num_decoder_layers=$layer \
         --max_epoch=2 \
         --max_grad_norm=10 \
         --random_seed $seed \
