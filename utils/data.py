@@ -51,7 +51,7 @@ def words_to_tokens(tokenizer, doc_tokens, max_text_len): # doc_tokens,表示tex
     all_doc_tokens: tokenizer之后的tokens
     """
     tok_to_orig_index = []
-    all_doc_tokens = ['[unused1]', '[CLS]']
+    all_doc_tokens = ['[unused1]', '<s>']
     for (i, token) in enumerate(doc_tokens): # token-->word
         # orig_to_tok_index.append(len(all_doc_tokens))
         sub_tokens = tokenizer.tokenize(token)
@@ -62,12 +62,12 @@ def words_to_tokens(tokenizer, doc_tokens, max_text_len): # doc_tokens,表示tex
 
     tok_to_orig_index = [0, 1]+[num + 2 for num in tok_to_orig_index] # 添加cls
     tok_to_orig_index.append(tok_to_orig_index[-1] + 1) # 添加sep
-    all_doc_tokens.append('[SEP]')
+    all_doc_tokens.append('</s>')
     assert len(tok_to_orig_index) == len(all_doc_tokens), "length is not equal" # 断言判断，是否相等，不相等，则报错
     # pad到最大长度
     for i in range(max_text_len - len(tok_to_orig_index)):
         tok_to_orig_index.append(0) # 补齐到最大长度
-        all_doc_tokens.append('[PAD]')
+        all_doc_tokens.append('<pad>')
     # stop()
     return tok_to_orig_index, all_doc_tokens # tok_to_orig_index: word_list按空格划分的序号，0， 1，2，3，3……
 # all_doc_tokens： 表示的是对text进行tokenizer的结果
@@ -79,7 +79,7 @@ def proc_raw_offset(offset_spans: str, text, data_path):
         return (0, 0)
     # 7&&all 8&&of 9&&the 10&&Nikon 11&&DLSR 12&&models
     if 'smartphone' in data_path:
-        offsets = re.findall(r'([0-9]+)&&(\S+)', offset_spans)
+        offsets = re.findall(r'([0-9]+)@@(\S+)', offset_spans)
     else:
         offsets = re.findall(r'([0-9]+)&(\S+)', offset_spans) # type(offset_spans):str
     # [7&&all, 8&&of, 9&&the, 10&&Nikon, 11&&DLSR, 12&&models]

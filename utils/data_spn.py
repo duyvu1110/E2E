@@ -49,7 +49,7 @@ def proc_raw_offset(offset_spans: str, text, data_path):
         return (0, 0)
     # 7&&all 8&&of 9&&the 10&&Nikon 11&&DLSR 12&&models
     if 'smartphone' in data_path:
-        offsets = re.findall(r'([0-9]+)&&(\S+)', offset_spans)
+        offsets = re.findall(r'([0-9]+)@@(\S+)', offset_spans)
     else:
         offsets = re.findall(r'([0-9]+)&(\S+)', offset_spans) # type(offset_spans):str
 
