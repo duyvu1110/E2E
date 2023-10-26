@@ -9,7 +9,7 @@ from trainer.trainer import Trainer
 from trainer.trainer_logits import Trainer_logits
 from models.setpred4RE import SetPred4RE
 from models.setpred4RE_absa import SetPred4RE_absa
-from models.setpred4RE_ZL import SetPred4RE_ZL
+# from models.setpred4RE_ZL import SetPred4RE_ZL
 from transformers import AutoTokenizer
 from torch.utils.data import DataLoader
 from pdb import set_trace as stop
