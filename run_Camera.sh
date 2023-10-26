@@ -14,7 +14,7 @@ do
         --batch_size=4 \
         --na_rel_coef=0.2 \
         --num_decoder_layers $layer \
-        --max_epoch=3 \
+        --max_epoch=2 \
         --max_grad_norm=10 \
         --random_seed $seed \
         --weight_decay=0.000001 \
@@ -42,7 +42,7 @@ do
         --batch_size=4 \
         --na_rel_coef=0.2 \
         --num_decoder_layers $layer \
-        --max_epoch=3 \
+        --max_epoch=2 \
         --max_grad_norm=10 \
         --random_seed $seed \
         --weight_decay=0.000001 \
