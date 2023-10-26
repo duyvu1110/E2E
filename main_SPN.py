@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--data_path', default='')
     parser.add_argument('--output_path', default='log/')
-    parser.add_argument('--bert_directory', type=str, default="./bert_base_uncased/")
+    parser.add_argument('--bert_directory', type=str, default="bert_base_uncased")
     parser.add_argument('--model_name', type=str, default="SPN")
     parser.add_argument('--num_generated_triples', type=int, default=10)
     parser.add_argument('--num_decoder_layers', type=int, default=3)
