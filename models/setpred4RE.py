@@ -3,7 +3,7 @@ import torch
 from models.set_decoder import SetDecoder
 from models.set_criterion import SetCriterion
 from models.set_criterion_absa import SetCriterion_absa
-from models.seq_encoder import SeqEncoder
+from models.seq_encoder import SeqEncoder, SeqEncoder_last
 from utils.functions import generate_triple
 import copy
 import torch.nn.functional as F
@@ -18,7 +18,7 @@ class SetPred4RE(nn.Module):
     def __init__(self, args, num_classes):
         super(SetPred4RE, self).__init__()
         self.args = args
-        self.encoder = SeqEncoder(args)
+        self.encoder = SeqEncoder_last(args)
         config = self.encoder.config
         self.linear = nn.Linear(config.hidden_size, self.args.max_text_length, bias=False) # add 对应论文的公式（8），线性层没有偏置
         self.num_classes = num_classes
