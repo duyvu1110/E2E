@@ -188,7 +188,7 @@ if __name__ == '__main__':
         'dev': DataLoader(load_data(args, 'dev'), args.batch_size, False, collate_fn=collate_fn),
         'test': DataLoader(load_data(args, 'test'), args.batch_size, False, collate_fn=collate_fn),
     }
-    model = SetPred4RE(args, 5).to(args.device)
+    model = SetPred4RE(args, 8).to(args.device)
     trainer = Trainer(model, data, args)
     trainer.train_model()
 
