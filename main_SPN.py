@@ -137,7 +137,7 @@ if __name__ == '__main__':
     parser.add_argument('--matcher', type=str, default="avg", choices=['avg', 'min'])
     parser.add_argument('--na_rel_coef', type=float, default=1)
     parser.add_argument('--rel_loss_weight', type=float, default=1)
-    parser.add_argument('--batch_size', type=int, default=1)
+    parser.add_argument('--batch_size', type=int, default=4)
     parser.add_argument('--max_epoch', type=int, default=50)
     parser.add_argument('--gradient_accumulation_steps', type=int, default=1)
     parser.add_argument('--decoder_lr', type=float, default=2e-5)
@@ -185,8 +185,8 @@ if __name__ == '__main__':
     collate_fn = build_collate_fn(args)
     data = {
         'train': DataLoader(load_data(args, 'train'), args.batch_size, True, collate_fn=collate_fn),
-        'dev': DataLoader(load_data(args, 'dev'), 1, False, collate_fn=collate_fn),
-        'test': DataLoader(load_data(args, 'test'), 1, False, collate_fn=collate_fn),
+        'dev': DataLoader(load_data(args, 'dev'), args.batch_size, False, collate_fn=collate_fn),
+        'test': DataLoader(load_data(args, 'test'), args.batch_size, False, collate_fn=collate_fn),
     }
     model = SetPred4RE(args, 5).to(args.device)
     trainer = Trainer(model, data, args)
