@@ -79,13 +79,13 @@ def proc_raw_offset(offset_spans: str, text, data_path):
         return (0, 0)
     # 7&&all 8&&of 9&&the 10&&Nikon 11&&DLSR 12&&models
     if 'smartphone' in data_path:
-        offsets = re.findall(r'([0-9]+)@@(\S+)', offset_spans)
+        offsets = re.findall(r'([0-9]+)&&(\S+)', offset_spans)
     else:
         offsets = re.findall(r'([0-9]+)&(\S+)', offset_spans) # type(offset_spans):str
     # [7&&all, 8&&of, 9&&the, 10&&Nikon, 11&&DLSR, 12&&models]
 
-    # return int(offsets[0][0]), int(offsets[-1][0]) # obtain start token and end token for each span, [('5', '幸'), ('6', '福'), ('7', '使'), ('8', '者')]--> (5,8)
-    return int(offsets[0][0]-1), int(offsets[-1][0]-1) # 等同于Camera从0开始计数
+    return int(offsets[0][0]), int(offsets[-1][0]) # obtain start token and end token for each span, [('5', '幸'), ('6', '福'), ('7', '使'), ('8', '者')]--> (5,8)
+    # return int(offsets[0][0]-1), int(offsets[-1][0]-1) # 等同于Camera从0开始计数
 
 
 def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_id):
@@ -168,7 +168,7 @@ def load_data(args, mode: str):
         else:
             # a new text line, so push the last text and update text_line
             if text_line != '':
-                all_samples.append(process_line(args, text_line, label_line, args.tokenizer, i))
+                all_samples.append(process_line(args, text_line, label_line, args.tokenizer,i))
                 i += 1
             text_line = cur_line
             label_line = ''
