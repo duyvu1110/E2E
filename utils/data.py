@@ -121,13 +121,13 @@ def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_i
             sample['labels'].append({
                 # 'sub_start_index': tokens_output.word_to_tokens(sub_offset[0]).start,
                 'sub_start_index': get_token_span(sub_offset[0]+1, token_offset)[0],
-                'sub_end_index': get_token_span(sub_offset[1] +1, token_offset)[1],
+                'sub_end_index': get_token_span(sub_offset[1] +1, token_offset)[1]+1,
                 'obj_start_index': get_token_span(obj_offset[0] +1, token_offset)[0],
-                'obj_end_index': get_token_span(obj_offset[1] +1, token_offset)[1],
+                'obj_end_index': get_token_span(obj_offset[1] +1, token_offset)[1]+1,
                 'aspect_start_index': get_token_span(aspect_offset[0] +1, token_offset)[0],
-                'aspect_end_index': get_token_span(aspect_offset[1] +1, token_offset)[1],
+                'aspect_end_index': get_token_span(aspect_offset[1] +1, token_offset)[1]+1,
                 'opinion_start_index': get_token_span(view_offset[0] +1, token_offset)[0],
-                'opinion_end_index': get_token_span(view_offset[1] +1, token_offset)[1],
+                'opinion_end_index': get_token_span(view_offset[1] +1, token_offset)[1]+1,
                 'relation': sentiment_label,
 
             })
