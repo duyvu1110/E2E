@@ -87,7 +87,7 @@ class SetCriterion(nn.Module):
         fives = [1 if i == 5 else 0 for i in labels]
         sixes = [1 if i == 6 else 0 for i in labels]
         sevens = [1 if i == 7 else 0 for i in labels]
-        eights = [1 if i == 5 else 0 for i in labels]
+        eights = [1 if i == 8 else 0 for i in labels]
         
 
         mask_labels = []
