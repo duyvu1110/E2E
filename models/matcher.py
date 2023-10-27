@@ -73,9 +73,9 @@ class HungarianMatcher(nn.Module):
         else:
             raise ValueError("Wrong matcher")
 
-        cost = cost.view(-1, num_generated_triples, 3).cpu() # bsz, q_num, 3
+        cost = cost.view(bsz, num_generated_triples, -1).cpu() # bsz, q_num, 3
         num_gold_triples = [len(v["relation"]) for v in targets] # num_gold_triples: 统计得到有效的triples, if len(r)=0，则表示该三元组无效
         indices = [linear_sum_assignment(c[i]) for i, c in enumerate(
-            cost.split(num_gold_triples, -1))] # indices: 先遍历得到组合，再线性最优
+            cost.split(num_gold_triples, 0))] # indices: 先遍历得到组合，再线性最优
         # stop()
         return [(torch.as_tensor(i, dtype=torch.int64), torch.as_tensor(j, dtype=torch.int64)) for i, j in indices]
