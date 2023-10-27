@@ -137,7 +137,7 @@ if __name__ == '__main__':
     parser.add_argument('--matcher', type=str, default="avg", choices=['avg', 'min'])
     parser.add_argument('--na_rel_coef', type=float, default=1)
     parser.add_argument('--rel_loss_weight', type=float, default=1)
-    parser.add_argument('--batch_size', type=int, default=4)
+    parser.add_argument('--batch_size', type=int, default=1)
     parser.add_argument('--max_epoch', type=int, default=50)
     parser.add_argument('--gradient_accumulation_steps', type=int, default=1)
     parser.add_argument('--decoder_lr', type=float, default=2e-5)
@@ -149,7 +149,7 @@ if __name__ == '__main__':
     parser.add_argument('--device', type=str, default='cuda:0')
     parser.add_argument('--random_seed', type=int, default=1)
     parser.add_argument('--n_best_size', type=int, default=5)
-    parser.add_argument('--max_text_length', type=int, default=259)
+    parser.add_argument('--max_text_length', type=int, default=258)
     parser.add_argument('--max_span_length', type=int, default=10)
     parser.add_argument('--wirte_param_path', type=str, default='')
     # add
