@@ -137,7 +137,7 @@ if __name__ == '__main__':
     parser.add_argument('--matcher', type=str, default="avg", choices=['avg', 'min'])
     parser.add_argument('--na_rel_coef', type=float, default=1)
     parser.add_argument('--rel_loss_weight', type=float, default=1)
-    parser.add_argument('--batch_size', type=int, default=1)
+    parser.add_argument('--batch_size', type=int, default=4)
     parser.add_argument('--max_epoch', type=int, default=50)
     parser.add_argument('--gradient_accumulation_steps', type=int, default=1)
     parser.add_argument('--decoder_lr', type=float, default=2e-5)
