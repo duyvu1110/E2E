@@ -134,7 +134,7 @@ if __name__ == '__main__':
     parser.add_argument('--model_name', type=str, default="SPN")
     parser.add_argument('--num_generated_triples', type=int, default=10)
     parser.add_argument('--num_decoder_layers', type=int, default=3)
-    parser.add_argument('--matcher', type=str, default="avg", choices=['avg', 'min'])
+    parser.add_argument('--matcher', type=str, default="min", choices=['avg', 'min'])
     parser.add_argument('--na_rel_coef', type=float, default=1)
     parser.add_argument('--rel_loss_weight', type=float, default=1)
     parser.add_argument('--batch_size', type=int, default=4)
