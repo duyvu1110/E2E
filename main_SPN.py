@@ -185,8 +185,8 @@ if __name__ == '__main__':
     collate_fn = build_collate_fn(args)
     data = {
         'train': DataLoader(load_data(args, 'train'), args.batch_size, True, collate_fn=collate_fn),
-        'dev': DataLoader(load_data(args, 'dev'), args.batch_size, False, collate_fn=collate_fn),
-        'test': DataLoader(load_data(args, 'test'), args.batch_size, False, collate_fn=collate_fn),
+        'dev': DataLoader(load_data(args, 'dev'), 1, False, collate_fn=collate_fn),
+        'test': DataLoader(load_data(args, 'test'), 1, False, collate_fn=collate_fn),
     }
     model = SetPred4RE(args, 5).to(args.device)
     trainer = Trainer(model, data, args)
