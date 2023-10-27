@@ -66,10 +66,10 @@ class HungarianMatcher(nn.Module):
                 - (pred_obj_start[:, gold_obj_start] + pred_obj_end[:, gold_obj_end]) \
                 - (pred_aspect_start[:, gold_aspect_start] + pred_aspect_end[:, gold_aspect_end]) \
                 - (pred_opinion_start[:, gold_opinion_start] + pred_opinion_end[:, gold_opinion_end]) 
-        elif self.matcher == "min":
-            cost = torch.cat([pred_sub_start[:, gold_sub_start].unsqueeze(1), pred_rel[:, gold_rel].unsqueeze(1), pred_sub_end[:, gold_sub_end].unsqueeze(
-                1), pred_tail_start[:, gold_tail_start].unsqueeze(1), pred_tail_end[:, gold_tail_end].unsqueeze(1)], dim=1)
-            cost = - torch.min(cost, dim=1)[0]
+        # elif self.matcher == "min":
+        #     cost = torch.cat([pred_sub_start[:, gold_sub_start].unsqueeze(1), pred_rel[:, gold_rel].unsqueeze(1), pred_sub_end[:, gold_sub_end].unsqueeze(
+        #         1), pred_tail_start[:, gold_tail_start].unsqueeze(1), pred_tail_end[:, gold_tail_end].unsqueeze(1)], dim=1)
+        #     cost = - torch.min(cost, dim=1)[0]
         else:
             raise ValueError("Wrong matcher")
 
