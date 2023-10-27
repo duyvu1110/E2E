@@ -146,7 +146,7 @@ if __name__ == '__main__':
     parser.add_argument('--weight_decay', type=float, default=1e-5)
     parser.add_argument('--max_grad_norm', type=float, default=0)
     parser.add_argument('--optimizer', type=str, default='AdamW', choices=['Adam', 'AdamW'])
-    parser.add_argument('--device', type=str, default='cuda:1')
+    parser.add_argument('--device', type=str, default='cuda' if torch.cuda.is_available() else 'cpu')
     parser.add_argument('--random_seed', type=int, default=1)
     parser.add_argument('--n_best_size', type=int, default=5)
     parser.add_argument('--max_text_length', type=int, default=258)
