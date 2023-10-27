@@ -73,7 +73,7 @@ class HungarianMatcher(nn.Module):
         else:
             raise ValueError("Wrong matcher")
 
-        cost = cost.view(bsz, num_generated_triples, -1).cpu() # bsz, q_num, 3
+        cost = cost.view(bsz, num_generated_triples, 3).cpu() # bsz, q_num, 3
         num_gold_triples = [len(v["relation"]) for v in targets] # num_gold_triples: 统计得到有效的triples, if len(r)=0，则表示该三元组无效
         indices = [linear_sum_assignment(c[i]) for i, c in enumerate(
             cost.split(num_gold_triples, -1))] # indices: 先遍历得到组合，再线性最优
