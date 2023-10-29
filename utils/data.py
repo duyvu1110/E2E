@@ -15,14 +15,18 @@ EMO_MAP = {
     -1: 1,
     0: 2,
     1: 3,
-    2: 4
+    2: 4,
+    3: 5,
+    4: 6,
+    5: 7,
+    6: 8,
 }
 
 def pass_offset(data_path, offset):
     """
     Set the offset in english dataset(Camera-COQE) starts from 0.
     """
-    if 'Camera' in data_path:
+    if 'smartphone' in data_path:
         return offset - 1
     else:
         return pass_offset
@@ -47,7 +51,7 @@ def words_to_tokens(tokenizer, doc_tokens, max_text_len): # doc_tokens,表示tex
     all_doc_tokens: tokenizer之后的tokens
     """
     tok_to_orig_index = []
-    all_doc_tokens = ['[unused1]', '[CLS]']
+    all_doc_tokens = ['[unused1]', '<s>']
     for (i, token) in enumerate(doc_tokens): # token-->word
         # orig_to_tok_index.append(len(all_doc_tokens))
         sub_tokens = tokenizer.tokenize(token)
@@ -58,12 +62,12 @@ def words_to_tokens(tokenizer, doc_tokens, max_text_len): # doc_tokens,表示tex
 
     tok_to_orig_index = [0, 1]+[num + 2 for num in tok_to_orig_index] # 添加cls
     tok_to_orig_index.append(tok_to_orig_index[-1] + 1) # 添加sep
-    all_doc_tokens.append('[SEP]')
+    all_doc_tokens.append('</s>')
     assert len(tok_to_orig_index) == len(all_doc_tokens), "length is not equal" # 断言判断，是否相等，不相等，则报错
     # pad到最大长度
     for i in range(max_text_len - len(tok_to_orig_index)):
         tok_to_orig_index.append(0) # 补齐到最大长度
-        all_doc_tokens.append('[PAD]')
+        all_doc_tokens.append('<pad>')
     # stop()
     return tok_to_orig_index, all_doc_tokens # tok_to_orig_index: word_list按空格划分的序号，0， 1，2，3，3……
 # all_doc_tokens： 表示的是对text进行tokenizer的结果
@@ -74,14 +78,14 @@ def proc_raw_offset(offset_spans: str, text, data_path):
         # use 1 to denotes the empty span
         return (0, 0)
     # 7&&all 8&&of 9&&the 10&&Nikon 11&&DLSR 12&&models
-    if 'Camera' in data_path:
+    if 'smartphone' in data_path:
         offsets = re.findall(r'([0-9]+)&&(\S+)', offset_spans)
     else:
         offsets = re.findall(r'([0-9]+)&(\S+)', offset_spans) # type(offset_spans):str
     # [7&&all, 8&&of, 9&&the, 10&&Nikon, 11&&DLSR, 12&&models]
 
-    return int(offsets[0][0]), int(offsets[-1][0]) # obtain start token and end token for each span, [('5', '幸'), ('6', '福'), ('7', '使'), ('8', '者')]--> (5,8)
-    # return int(offsets[0][0]) -1, int(offsets[-1][0]) -1 # 等同于Camera从0开始计数
+    return int(offsets[0][0])-1, int(offsets[-1][0])-1 # obtain start token and end token for each span, [('5', '幸'), ('6', '福'), ('7', '使'), ('8', '者')]--> (5,8)
+    # return int(offsets[0][0]-1), int(offsets[-1][0]-1) # 等同于Camera从0开始计数
 
 
 def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_id):
@@ -91,7 +95,7 @@ def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_i
     # label_line--> re_result:去除原始数据中的[]，以及;
     raw_labels: List = [[x for x in y] for y in re_result] #一个样本存放在一个list中 
     # List of triples for a sentence
-    if 'Camera' in args.data_path:
+    if 'smartphone' in args.data_path:
         token_offset, tokens = words_to_tokens(tokenizer, text.split(" "), args.max_text_length)
         token_ids = tokenizer.convert_tokens_to_ids(tokens)
     else:
@@ -113,17 +117,17 @@ def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_i
         view_offset = proc_raw_offset(tri[3], text, args.data_path)
         sentiment_label = have_triples * EMO_MAP[int(tri[4])]
 
-        if 'Camera' in args.data_path:
+        if 'smartphone' in args.data_path:
             sample['labels'].append({
                 # 'sub_start_index': tokens_output.word_to_tokens(sub_offset[0]).start,
                 'sub_start_index': get_token_span(sub_offset[0]+1, token_offset)[0],
-                'sub_end_index': get_token_span(sub_offset[1] +1, token_offset)[1],
+                'sub_end_index': get_token_span(sub_offset[1] +1, token_offset)[1]+1,
                 'obj_start_index': get_token_span(obj_offset[0] +1, token_offset)[0],
-                'obj_end_index': get_token_span(obj_offset[1] +1, token_offset)[1],
+                'obj_end_index': get_token_span(obj_offset[1] +1, token_offset)[1]+1,
                 'aspect_start_index': get_token_span(aspect_offset[0] +1, token_offset)[0],
-                'aspect_end_index': get_token_span(aspect_offset[1] +1, token_offset)[1],
+                'aspect_end_index': get_token_span(aspect_offset[1] +1, token_offset)[1]+1,
                 'opinion_start_index': get_token_span(view_offset[0] +1, token_offset)[0],
-                'opinion_end_index': get_token_span(view_offset[1] +1, token_offset)[1],
+                'opinion_end_index': get_token_span(view_offset[1] +1, token_offset)[1]+1,
                 'relation': sentiment_label,
 
             })
@@ -164,7 +168,7 @@ def load_data(args, mode: str):
         else:
             # a new text line, so push the last text and update text_line
             if text_line != '':
-                all_samples.append(process_line(args, text_line, label_line, args.tokenizer, i))
+                all_samples.append(process_line(args, text_line, label_line, args.tokenizer,i))
                 i += 1
             text_line = cur_line
             label_line = ''

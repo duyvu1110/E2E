@@ -5,8 +5,8 @@ import os
 class Alphabet:
     def __init__(self, name, padflag=True, unkflag=True, keep_growing=True):
         self.name = name
-        self.PAD = "</pad>"
-        self.UNKNOWN = "</unk>"
+        self.PAD = "<pad>"
+        self.UNKNOWN = "<unk>"
         self.padflag = padflag
         self.unkflag = unkflag
         self.instance2index = {}
@@ -53,9 +53,9 @@ class Alphabet:
     def get_instance(self, index):
         if index == 0:
             if self.padflag:
-                print(self.name +" get_instance of </pad>, wrong?")
+                print(self.name +" get_instance of <pad>, wrong?")
             if not self.padflag and self.unkflag:
-                print(self.name +" get_instance of </unk>, wrong?")
+                print(self.name +" get_instance of <unk>, wrong?")
             return self.instances[index]
         try:
             return self.instances[index]

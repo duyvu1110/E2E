@@ -1,13 +1,13 @@
 import torch.nn as nn
 import torch
-from transformers import BertModel
+from transformers import AutoModel
 
 
 class SeqEncoder(nn.Module):
     def __init__(self, args):
         super(SeqEncoder, self).__init__()
         self.args = args
-        self.bert = BertModel.from_pretrained(args.bert_directory)
+        self.bert = AutoModel.from_pretrained(args.bert_directory)
         self.config = self.bert.config
 
     def forward(self, input_ids, attention_mask):
@@ -19,7 +19,7 @@ class SeqEncoder_last(nn.Module):
     def __init__(self, args):
         super(SeqEncoder, self).__init__()
         self.args = args
-        self.bert = BertModel.from_pretrained(args.bert_directory)
+        self.bert = AutoModel.from_pretrained(args.bert_directory)
         self.config = self.bert.config
 
     def forward(self, input_ids, attention_mask):
@@ -33,7 +33,7 @@ class SeqEncoder_last(nn.Module):
             hidden_state = torch.stack(hidden_state, dim=-1)
             batch_size, length, _, _ = hidden_state.shape 
             hidden_state = hidden_state.reshape(batch_size, length, -1)
-            return hidden_state, pooler_output
+            # return hidden_state, pooler_output
         
         # return hidden_state, pooler_output # 4*bs,se,hi
-        # return last_hidden_state, pooler_output # bs,se,hi
+        return last_hidden_state, pooler_output # bs,se,hi

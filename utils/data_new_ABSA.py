@@ -22,7 +22,7 @@ def pass_offset(data_path, offset):
     """
     Set the offset in english dataset(Camera-COQE) starts from 0.
     """
-    if 'Camera' in data_path:
+    if 'smartphone' in data_path:
         return offset - 1
     else:
         return pass_offset
@@ -32,7 +32,7 @@ def proc_raw_offset(offset_spans: str, text, data_path):
         # use 1 to denotes the empty span
         return (0, 0)
     # 7&&all 8&&of 9&&the 10&&Nikon 11&&DLSR 12&&models
-    if 'Camera' in data_path:
+    if 'smartphone' in data_path:
         offsets = re.findall(r'([0-9]+)&&(\S+)', offset_spans)
     else:
         offsets = re.findall(r'([0-9]+)&(\S+)', offset_spans) # type(offset_spans):str
@@ -99,7 +99,7 @@ def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_i
     # tokens_output = tokenizer(text, max_length=args.max_text_length - 1, pad_to_max_length=True) # input_ids, token_type_ids, attention_mask
     # unused1:表示据识（拒绝识别），即query可能未是被出五元组， unused1表示0，
     # token_ids = [tokenizer.convert_tokens_to_ids('[unused1]')] + tokens_output['input_ids']
-    if 'Camera' in args.data_path or 'lap' in args.data_path or 'res' in args.data_path:
+    if 'smartphone' in args.data_path or 'lap' in args.data_path or 'res' in args.data_path:
         text = "# " +text
         text_list = text.split(" ")
     else:

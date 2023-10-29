@@ -3,7 +3,7 @@ import torch
 from models.set_decoder import SetDecoder
 from models.set_criterion import SetCriterion
 from models.set_criterion_absa import SetCriterion_absa
-from models.seq_encoder import SeqEncoder
+from models.seq_encoder import SeqEncoder, SeqEncoder_last
 from utils.functions import generate_triple
 import copy
 import torch.nn.functional as F

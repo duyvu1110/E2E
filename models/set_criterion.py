@@ -83,7 +83,12 @@ class SetCriterion(nn.Module):
         ones = [1 if i == 1 else 0 for i in labels]
         twos = [1 if i == 2 else 0 for i in labels]
         threes = [1 if i == 3 else 0 for i in labels]
-        # fours = [1 if i == 4 else 0 for i in labels]
+        fours = [1 if i == 4 else 0 for i in labels]
+        fives = [1 if i == 5 else 0 for i in labels]
+        sixes = [1 if i == 6 else 0 for i in labels]
+        sevens = [1 if i == 7 else 0 for i in labels]
+        eights = [1 if i == 8 else 0 for i in labels]
+        
 
         mask_labels = []
         if sum(zeros) > 1:
@@ -94,8 +99,16 @@ class SetCriterion(nn.Module):
             mask_labels.append(twos)
         if sum(threes) > 1:
             mask_labels.append(threes)
-        # if sum(fours) > 1:
-        #     mask_labels.append(threes)
+        if sum(fours) > 1:
+            mask_labels.append(threes)
+        if sum(fives) > 1:
+            mask_labels.append(fours)
+        if sum(sixes) > 1:
+            mask_labels.append(fives)
+        if sum(sevens) > 1:
+            mask_labels.append(sixes)
+        if sum(eights) > 1:
+            mask_labels.append(sevens)
 
         losses = 0.
         loss_nums = 0
