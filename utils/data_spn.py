@@ -26,7 +26,7 @@ EMO_MAP = {
 
 def get_postag(text):
     postag = []
-    nlp = stanza.Pipeline('en')
+    nlp = stanza.Pipeline('vi')
     doc = nlp(text)
     for sent in doc.sentences:
         for word in sent.words:

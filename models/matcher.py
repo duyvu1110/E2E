@@ -61,7 +61,7 @@ class HungarianMatcher(nn.Module):
         gold_opinion_start = torch.cat([v["opinion_start_index"] for v in targets])
         gold_opinion_end = torch.cat([v["opinion_end_index"] for v in targets])
         if self.matcher == "avg":
-            cost = - pred_rel[:, gold_rel] \
+            cost = - pred_rel[:, gold_rel-1] \
                 - (pred_sub_start[:, gold_sub_start] + pred_sub_end[:, gold_sub_end]) \
                 - (pred_obj_start[:, gold_obj_start] + pred_obj_end[:, gold_obj_end]) \
                 - (pred_aspect_start[:, gold_aspect_start] + pred_aspect_end[:, gold_aspect_end]) \
