@@ -4,6 +4,7 @@ for layer in 3
 do
     for seed in 2
     do
+        CUDA_LAUNCH_BLOCKING=1\
         python main_SPN.py  \
         --model_name=Camera_SPN \
         --num_generated=60 \
@@ -30,6 +31,7 @@ for layer in 3
 do
     for seed in 2
     do
+        CUDA_LAUNCH_BLOCKING=1\
         python main_SPN.py  \
         --model_name=Camera_SPN_test_Amsgrad \
         --num_generated=60 \
