@@ -186,11 +186,11 @@ class Trainer(nn.Module):
                     # 'aspect': [get_text(whole_input_ids[k], x.aspect_start_index, x.aspect_end_index) for x in prediction[k]],
                     # 'opinion': [get_text(whole_input_ids[k], x.opinion_start_index, x.opinion_end_index) for x in prediction[k]],
                     # 'sentiment': [x.pred_rel for x in prediction[k]],
-                    'subject': get_text(whole_input_ids[k], prediction[k].sub_start_index, prediction[k].sub_end_index),
-                    'object': get_text(whole_input_ids[k], prediction[k].obj_start_index, prediction[k].obj_end_index),
-                    'aspect': get_text(whole_input_ids[k], prediction[k].aspect_start_index, prediction[k].aspect_end_index),
-                    'opinion': get_text(whole_input_ids[k], prediction[k].opinion_start_index, prediction[k].opinion_end_index),
-                    'sentiment': [x.pred_rel for x in prediction[k]],
+                    'subject': get_text(whole_input_ids[k], prediction[k][-1].sub_start_index, prediction[k][-1].sub_end_index),
+                    'object': get_text(whole_input_ids[k], prediction[k][-1].obj_start_index, prediction[k][-1].obj_end_index),
+                    'aspect': get_text(whole_input_ids[k], prediction[k][-1].aspect_start_index, prediction[k][-1].aspect_end_index),
+                    'opinion': get_text(whole_input_ids[k], prediction[k][-1].opinion_start_index, prediction[k][-1].opinion_end_index),
+                    'sentiment': [x.pred_rel for x in prediction[k][-1]],
                 }
             # write to file
             with open(os.path.join(self.args.output_path, 'preds_five.txt'), 'w', encoding='utf-8') as f:

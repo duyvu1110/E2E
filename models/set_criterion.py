@@ -221,8 +221,8 @@ class SetCriterion(nn.Module):
                                     dtype=torch.int64, device=src_logits.device)
         # bsz, num_generated_triples
         target_classes[idx] = target_classes_o
-        print(src_logits.flatten(0,1))
-        print(target_classes.flatten(0,1))
+        # print(src_logits.flatten(0,1))
+        # print(target_classes.flatten(0,1))
         loss = F.cross_entropy(src_logits.flatten(0, 1), target_classes.flatten(0, 1), weight=self.rel_weight)
         # stop()
         losses = {'relation': loss}
