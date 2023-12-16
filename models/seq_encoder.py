@@ -7,7 +7,7 @@ class SeqEncoder(nn.Module):
     def __init__(self, args):
         super(SeqEncoder, self).__init__()
         self.args = args
-        self.bert = AutoModel.from_pretrained('vinai/phobert-base-v2', vocab_size = 60000)
+        self.bert = AutoModel.from_pretrained('vinai/phobert-base-v2', vocab_size = 60000, ignore_mismatched_sizes=True)
         self.config = self.bert.config
 
     def forward(self, input_ids, attention_mask):
@@ -19,7 +19,7 @@ class SeqEncoder_last(nn.Module):
     def __init__(self, args):
         super(SeqEncoder, self).__init__()
         self.args = args
-        self.bert = AutoModel.from_pretrained(args.bert_directory, vocab_size = 60000)
+        self.bert = AutoModel.from_pretrained(args.bert_directory, vocab_size = 60000, ignore_mismatched_sizes=True)
         self.config = self.bert.config
 
     def forward(self, input_ids, attention_mask):
