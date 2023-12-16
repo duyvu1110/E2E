@@ -130,7 +130,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--data_path', default='')
     parser.add_argument('--output_path', default='log/')
-    parser.add_argument('--bert_directory', type=str, default="vinai/phobert-base")
+    parser.add_argument('--bert_directory', type=str, default="vinai/phobert-base-v2")
     parser.add_argument('--model_name', type=str, default="SPN")
     parser.add_argument('--num_generated_triples', type=int, default=10)
     parser.add_argument('--num_decoder_layers', type=int, default=3)
@@ -167,7 +167,7 @@ if __name__ == '__main__':
     # args.output_path = os.path.join(args.output_path, datetime.today().strftime("%Y-%m-%d-%H-%M-%S")+"-"+args.data_path.split('/')[1])
     args.output_path = os.path.join(args.output_path, args.model_name +"-"+ str(args.random_seed)) # three and five have the same folder name
 
-    tokenizer = AutoTokenizer.from_pretrained(args.bert_directory, padding=True)
+    tokenizer = AutoTokenizer.from_pretrained(args.bert_directory, padding=True,vocab_size = 30000)
     args.tokenizer = tokenizer
     
     if os.path.exists(args.output_path):
