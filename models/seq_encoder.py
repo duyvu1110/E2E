@@ -7,7 +7,7 @@ class SeqEncoder(nn.Module):
     def __init__(self, args):
         super(SeqEncoder, self).__init__()
         self.args = args
-        self.bert = AutoModel.from_pretrained('vinai/phobert-base')
+        self.bert = AutoModel.from_pretrained('vinai/phobert-base-v2',vocal_size = 60000)
         self.config = self.bert.config
 
     def forward(self, input_ids, attention_mask):
