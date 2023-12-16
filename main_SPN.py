@@ -149,7 +149,7 @@ if __name__ == '__main__':
     parser.add_argument('--device', type=str, default='cuda')
     parser.add_argument('--random_seed', type=int, default=1)
     parser.add_argument('--n_best_size', type=int, default=5)
-    parser.add_argument('--max_text_length', type=int, default=258)
+    parser.add_argument('--max_text_length', type=int, default=512)
     parser.add_argument('--max_span_length', type=int, default=10)
     parser.add_argument('--wirte_param_path', type=str, default='')
     # add
