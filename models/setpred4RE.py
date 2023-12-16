@@ -20,7 +20,7 @@ class SetPred4RE(nn.Module):
         self.args = args
         self.encoder = SeqEncoder(args)
         config = self.encoder.config
-        self.linear = nn.Linear(config.hidden_size, self.args.max_text_length, bias=False) # add 对应论文的公式（8），线性层没有偏置
+        self.linear = nn.Linear(config.hidden_size, 256, bias=False) # add 对应论文的公式（8），线性层没有偏置
         self.num_classes = num_classes
         self.decoder = SetDecoder(args, config, args.num_generated_triples, args.num_decoder_layers, num_classes, return_intermediate=False)
         # self.criterion = SetCriterion(num_classes, na_coef=args.na_rel_coef, losses=["entity", "relation", "quintuple_relation"], matcher=args.matcher) 
