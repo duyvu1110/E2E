@@ -130,7 +130,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--data_path', default='')
     parser.add_argument('--output_path', default='log/')
-    parser.add_argument('--bert_directory', type=str, default="vinai/phobert-base-v2")
+    parser.add_argument('--bert_directory', type=str, default="vinai/phobert-base")
     parser.add_argument('--model_name', type=str, default="SPN")
     parser.add_argument('--num_generated_triples', type=int, default=10)
     parser.add_argument('--num_decoder_layers', type=int, default=3)
@@ -149,7 +149,7 @@ if __name__ == '__main__':
     parser.add_argument('--device', type=str, default='cuda')
     parser.add_argument('--random_seed', type=int, default=1)
     parser.add_argument('--n_best_size', type=int, default=5)
-    parser.add_argument('--max_text_length', type=int, default=512)
+    parser.add_argument('--max_text_length', type=int, default=258)
     parser.add_argument('--max_span_length', type=int, default=10)
     parser.add_argument('--wirte_param_path', type=str, default='')
     # add
