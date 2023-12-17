@@ -13,7 +13,7 @@ do
         --data_path=data/smartphone \
         --na_rel_coef=0.2 \
         --num_decoder_layers=$layer \
-        --max_epoch=2 \
+        --max_epoch=25 \
         --max_grad_norm=10 \
         --random_seed $seed \
         --weight_decay=0.000001 \
@@ -40,7 +40,7 @@ do
         --data_path=data/smartphone \
         --na_rel_coef=0.2 \
         --num_decoder_layers=$layer \
-        --max_epoch=2 \
+        --max_epoch=25 \
         --max_grad_norm=10 \
         --random_seed $seed \
         --weight_decay=0.000001 \
