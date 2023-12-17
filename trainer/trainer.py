@@ -67,6 +67,7 @@ class Trainer(nn.Module):
 
         train_loader = self.data['train']
         # result = self.eval_model(self.data.test_loader)
+        best_result_epoch = 0
         for epoch in range(self.args.max_epoch):
             # Train
             self.model.train()
