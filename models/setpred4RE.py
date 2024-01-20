@@ -82,6 +82,7 @@ class SetPred4RE(nn.Module):
             # print(pred_triple)
         return pred_triple
 
+    
     @staticmethod
     def get_loss_weight(args):
         return {"relation": args.rel_loss_weight, "head_entity": args.head_ent_loss_weight, "tail_entity": args.tail_ent_loss_weight}

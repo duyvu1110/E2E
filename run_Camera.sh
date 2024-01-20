@@ -18,7 +18,7 @@ do
         --random_seed $seed \
         --weight_decay=0.000001 \
         --lr_decay=0.02 \
-        --stage=two \
+        --stage=one \
         --multi_heads=5 \
         --method_stage=method_one \
 
@@ -45,7 +45,7 @@ do
         --random_seed $seed \
         --weight_decay=0.000001 \
         --lr_decay=0.02 \
-        --stage=two \
+        --stage=one \
         --multi_heads=5 \
         --method_stage=method_one \
         --data_type=five \
