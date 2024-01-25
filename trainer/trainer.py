@@ -198,8 +198,9 @@ class Trainer(nn.Module):
                     input_ids = whole_input_ids[k]
                     sentence = get_text(input_ids, 0, len(input_ids))
                     f.write(sentence+'\n')
-                    res = '{"subject": '                    
+                    # res = '{"subject": '                    
                     for index in range(0, len(prediction[k])):
+                        res = '{"subject": '  
                         res += get_text(input_ids, prediction[k][index].sub_start_index, prediction[k][index].sub_end_index)
                         res += ', "object": '
                         res += get_text(input_ids, prediction[k][index].obj_start_index, prediction[k][index].obj_end_index)

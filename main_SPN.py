@@ -128,26 +128,26 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--data_path', default='')
+    parser.add_argument('--data_path', default='data/smartphone')
     parser.add_argument('--output_path', default='log/')
     parser.add_argument('--bert_directory', type=str, default="vinai/phobert-base-v2")
-    parser.add_argument('--model_name', type=str, default="SPN")
-    parser.add_argument('--num_generated_triples', type=int, default=10)
+    parser.add_argument('--model_name', type=str, default="Camera_SPN")
+    parser.add_argument('--num_generated_triples', type=int, default=30)
     parser.add_argument('--num_decoder_layers', type=int, default=3)
     parser.add_argument('--matcher', type=str, default="avg", choices=['avg', 'min'])
-    parser.add_argument('--na_rel_coef', type=float, default=1)
+    parser.add_argument('--na_rel_coef', type=float, default=0.2)
     parser.add_argument('--rel_loss_weight', type=float, default=1)
     parser.add_argument('--batch_size', type=int, default=4)
     parser.add_argument('--max_epoch', type=int, default=50)
     parser.add_argument('--gradient_accumulation_steps', type=int, default=1)
-    parser.add_argument('--decoder_lr', type=float, default=2e-5)
-    parser.add_argument('--encoder_lr', type=float, default=1e-5)
-    parser.add_argument('--lr_decay', type=float, default=0.01)
-    parser.add_argument('--weight_decay', type=float, default=1e-5)
+    parser.add_argument('--decoder_lr', type=float, default=4e-5)
+    parser.add_argument('--encoder_lr', type=float, default=2e-5)
+    parser.add_argument('--lr_decay', type=float, default=0.02)
+    parser.add_argument('--weight_decay', type=float, default=1e-6)
     parser.add_argument('--max_grad_norm', type=float, default=0)
     parser.add_argument('--optimizer', type=str, default='AdamW', choices=['Adam', 'AdamW'])
     parser.add_argument('--device', type=str, default='cuda')
-    parser.add_argument('--random_seed', type=int, default=1)
+    parser.add_argument('--random_seed', type=int, default=2024)
     parser.add_argument('--n_best_size', type=int, default=5)
     parser.add_argument('--max_text_length', type=int, default=256)
     parser.add_argument('--max_span_length', type=int, default=10)
@@ -160,10 +160,11 @@ if __name__ == '__main__':
     parser.add_argument('--bilstm_hidden_size', help='the size of hidden embedding', type=int, default=512)
     parser.add_argument('--bilstm_num_layers', help='the number of layer', type=int, default=2)
     parser.add_argument('--stage', type=str, default='one')
-    parser.add_argument('--method_stage', help='rhe method of the decoder to using different load', type=str, default='method_one')
+    parser.add_argument('--mode', help='rhe method of the decoder to using different load', type=str, default='train')
     parser.add_argument('--multi_heads', type=int, help='the heads of classification', default=5) # 5 or 3
     parser.add_argument('--data_type', type=str, default="quintuple")
     args = parser.parse_args()
+    parser.add_argument('--pretrained_path', type=str, default='') 
     # args.output_path = os.path.join(args.output_path, datetime.today().strftime("%Y-%m-%d-%H-%M-%S")+"-"+args.data_path.split('/')[1])
     args.output_path = os.path.join(args.output_path, args.model_name +"-"+ str(args.random_seed)) # three and five have the same folder name
 
@@ -189,8 +190,13 @@ if __name__ == '__main__':
         'test': DataLoader(load_data(args, 'test'), args.batch_size, False, collate_fn=collate_fn),
     }
     model = SetPred4RE(args, 8).to(args.device)
-    trainer = Trainer(model, data, args)
-    trainer.train_model()
+    if args.mode == 'train':
+        trainer = Trainer(model, data, args)
+        trainer.train_model()
+    else:
+        model.load_state_dict(torch.load(open(os.path.join(args.output_path, 'best_model.pt'), 'rb')))
+        trainer = Trainer(model, data, args)
+        trainer.eval_model(model, data['test'], 'test')
 
     with open(os.path.join(args.output_path,'params.txt'),"a") as f:
         print("=============================================", file=f)

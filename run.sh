@@ -20,7 +20,7 @@ do
         --lr_decay=0.02 \
         --stage=two \
         --multi_heads=5 \
-        --method_stage=method_one \
+        --mode=test \
 
     done
 done
