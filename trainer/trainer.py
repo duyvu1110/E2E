@@ -148,8 +148,6 @@ class Trainer(nn.Module):
         pred_texts = {}
 
         def get_text(input_ids, start_index, end_index):
-            start_index += 2
-            end_index += 3
             tokenizer = self.args.tokenizer
             text = tokenizer.decode(input_ids[start_index: end_index])
             tokens = tokenizer.convert_ids_to_tokens(input_ids[start_index: end_index])
@@ -203,13 +201,13 @@ class Trainer(nn.Module):
                     # res = '{"subject": '                    
                     for index in range(0, len(prediction[k])):
                         res = '{"subject": '  
-                        res += get_text(input_ids, prediction[k][index].sub_start_index, prediction[k][index].sub_end_index)
+                        res += get_text(input_ids, prediction[k][index].sub_start_index+1, prediction[k][index].sub_end_index+1)
                         res += ', "object": '
-                        res += get_text(input_ids, prediction[k][index].obj_start_index, prediction[k][index].obj_end_index)
+                        res += get_text(input_ids, prediction[k][index].obj_start_index+1, prediction[k][index].obj_end_index+1)
                         res += ', "aspect": '
-                        res += get_text(input_ids, prediction[k][index].aspect_start_index, prediction[k][index].aspect_end_index)
+                        res += get_text(input_ids, prediction[k][index].aspect_start_index+1, prediction[k][index].aspect_end_index+1)
                         res += ', "opinion": '
-                        res += get_text(input_ids, prediction[k][index].opinion_start_index, prediction[k][index].opinion_end_index)
+                        res += get_text(input_ids, prediction[k][index].opinion_start_index+1, prediction[k][index].opinion_end_index+1)
                         res += ', "sentiment": '
                         res += f'"{prediction[k][index].pred_rel}"'
                         if index != len(prediction[k]) - 1:
