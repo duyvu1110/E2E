@@ -82,6 +82,11 @@ class SetPred4RE(nn.Module):
             # print(pred_triple)
         return pred_triple
 
+    def gen_quintuples(self, input_ids, attention_mask, info):
+        with torch.no_grad():
+            outputs = self.forward(input_ids, attention_mask)
+            pred_quintuple = generate_quintuple(outputs, info, self.args, self.num_classes)
+        return pred_quintuple
     
     @staticmethod
     def get_loss_weight(args):

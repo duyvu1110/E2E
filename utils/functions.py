@@ -172,6 +172,8 @@ def generate_triple(output, info, args, num_classes):
     # print(triples)
     return triples
 
+def generate_quintuple(output, info, args, num_classes):
+    pass
 
 def generate_strategy(pred_rel, pred_sub, pred_obj, pred_aspect, pred_opinion, num_classes, _Pred_Triple):
     if pred_rel.pred_rel != 0:

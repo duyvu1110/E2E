@@ -151,8 +151,14 @@ class Trainer(nn.Module):
             tokenizer = self.args.tokenizer
             text = tokenizer.decode(input_ids[start_index: end_index])
             tokens = tokenizer.convert_ids_to_tokens(input_ids[start_index: end_index])
-            # return text.strip(), tokens
-            return tokens
+            # return tokens
+            res = '['
+            for index in range(start_index, end_index):
+                if index != end_index - 1:
+                    res += f'"{index}&&{tokens[index]}", '
+                else:
+                    res += f'"{index}&&{tokens[index]}"]'
+            return res
 
         whole_input_ids = []
         with torch.no_grad():
@@ -180,22 +186,39 @@ class Trainer(nn.Module):
                 json.dump(pred_texts,f)
 
         elif self.args.stage == "two": # 五元组抽取写入txt
-            for k in prediction:
-                pred_texts[k] = {
-                    'sub': [get_text(whole_input_ids[k], x.sub_start_index, x.sub_end_index) for x in prediction[k]],
-                    'obj': [get_text(whole_input_ids[k], x.obj_start_index, x.obj_end_index) for x in prediction[k]],
-                    'aspect': [get_text(whole_input_ids[k], x.aspect_start_index, x.aspect_end_index) for x in prediction[k]],
-                    'opinion': [get_text(whole_input_ids[k], x.opinion_start_index, x.opinion_end_index) for x in prediction[k]],
-                    'sentiment': [x.pred_rel for x in prediction[k]]    
-                    # 'subject': get_text(whole_input_ids[k], prediction[k][-1].sub_start_index, prediction[k][-1].sub_end_index),
-                    # 'object': get_text(whole_input_ids[k], prediction[k][-1].obj_start_index, prediction[k][-1].obj_end_index),
-                    # 'aspect': get_text(whole_input_ids[k], prediction[k][-1].aspect_start_index, prediction[k][-1].aspect_end_index),
-                    # 'opinion': get_text(whole_input_ids[k], prediction[k][-1].opinion_start_index, prediction[k][-1].opinion_end_index),
-                    # 'sentiment': [x.pred_rel for x in prediction[k][-1]],
-                }
-            # write to file
             with open(os.path.join(self.args.output_path, 'preds_five.txt'), 'w', encoding='utf-8') as f:
-                json.dump(pred_texts, f)
+                for k in prediction:
+                    # pred_texts[k] = {
+                    #     'sub': [get_text(whole_input_ids[k], x.sub_start_index, x.sub_end_index) for x in prediction[k]],
+                    #     'obj': [get_text(whole_input_ids[k], x.obj_start_index, x.obj_end_index) for x in prediction[k]],
+                    #     'aspect': [get_text(whole_input_ids[k], x.aspect_start_index, x.aspect_end_index) for x in prediction[k]],
+                    #     'opinion': [get_text(whole_input_ids[k], x.opinion_start_index, x.opinion_end_index) for x in prediction[k]],
+                    #     'sentiment': [x.pred_rel for x in prediction[k]]
+                    # }
+                    input_ids = whole_input_ids[k]
+                    sentence = get_text(input_ids, 0, len(input_ids))
+                    f.write(sentence+'\n')
+                    res = '{"subject": '                    
+                    for index in range(0, len(prediction[k])):
+                        res += get_text(input_ids, prediction[k][index].sub_start_index, prediction[k][index].sub_end_index)
+                        res += ', "object": '
+                        res += get_text(input_ids, prediction[k][index].obj_start_index, prediction[k][index].obj_end_index)
+                        res += ', "aspect": '
+                        res += get_text(input_ids, prediction[k][index].aspect_start_index, prediction[k][index].aspect_end_index)
+                        res += ', "opinion": '
+                        res += get_text(input_ids, prediction[k][index].opinion_start_index, prediction[k][index].opinion_end_index)
+                        res += ', "sentiment": '
+                        res += f'"{prediction[k][index].pred_rel}"'
+                        if index != len(prediction[k]) - 1:
+                            res += '}\n'
+                        else:
+                            res += '}\n\n'
+                        f.write(res)
+                    
+                
+            # write to file
+            # with open(os.path.join(self.args.output_path, 'preds_five.txt'), 'w', encoding='utf-8') as f:
+            #     json.dump(pred_texts, f)
         
         if process=='dev':
             print("run dev", process)
