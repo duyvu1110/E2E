@@ -149,7 +149,7 @@ class Trainer(nn.Module):
 
         def get_text(input_ids, start_index, end_index):
             start_index += 2
-            end_index += 2
+            end_index += 3
             tokenizer = self.args.tokenizer
             text = tokenizer.decode(input_ids[start_index: end_index])
             tokens = tokenizer.convert_ids_to_tokens(input_ids[start_index: end_index])
