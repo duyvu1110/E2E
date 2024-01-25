@@ -148,6 +148,8 @@ class Trainer(nn.Module):
         pred_texts = {}
 
         def get_text(input_ids, start_index, end_index):
+            start_index += 2
+            end_index += 2
             tokenizer = self.args.tokenizer
             text = tokenizer.decode(input_ids[start_index: end_index])
             tokens = tokenizer.convert_ids_to_tokens(input_ids[start_index: end_index])
@@ -196,7 +198,7 @@ class Trainer(nn.Module):
                     #     'sentiment': [x.pred_rel for x in prediction[k]]
                     # }
                     input_ids = whole_input_ids[k]
-                    sentence = self.args.tokenizer.decode(input_ids)
+                    sentence = self.args.tokenizer.decode(input_ids[2:])
                     f.write(sentence+'\n')
                     # res = '{"subject": '                    
                     for index in range(0, len(prediction[k])):
