@@ -194,7 +194,7 @@ if __name__ == '__main__':
         trainer = Trainer(model, data, args)
         trainer.train_model()
     else:
-        model.load_state_dict(torch.load(open(os.path.join(args.pretrained, 'best_model.pt'), 'rb')))
+        model.load_state_dict(torch.load(open(os.path.join(args.pretrained, 'best.pt'), 'rb')))
         trainer = Trainer(model, data, args)
         trainer.eval_model(model, data['test'], 'test')
 
