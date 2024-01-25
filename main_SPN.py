@@ -196,7 +196,7 @@ if __name__ == '__main__':
     else:
         model.load_state_dict(torch.load(open(os.path.join(args.pretrained, 'best.pt'), 'rb')))
         trainer = Trainer(model, data, args)
-        trainer.eval_model(model, data['test'], 'test')
+        trainer.eval_model(data['test'], 'test')
 
     with open(os.path.join(args.output_path,'params.txt'),"a") as f:
         print("=============================================", file=f)
