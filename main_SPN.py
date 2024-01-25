@@ -132,7 +132,7 @@ if __name__ == '__main__':
     parser.add_argument('--output_path', default='log/')
     parser.add_argument('--bert_directory', type=str, default="vinai/phobert-base-v2")
     parser.add_argument('--model_name', type=str, default="Camera_SPN")
-    parser.add_argument('--num_generated_triples', type=int, default=30)
+    parser.add_argument('--num_generated_triples', type=int, default=60)
     parser.add_argument('--num_decoder_layers', type=int, default=3)
     parser.add_argument('--matcher', type=str, default="avg", choices=['avg', 'min'])
     parser.add_argument('--na_rel_coef', type=float, default=0.2)
@@ -172,7 +172,7 @@ if __name__ == '__main__':
     args.tokenizer = tokenizer
     
     if os.path.exists(args.output_path):
-        print("该文件夹已存在，请勿重复创建！")
+        print("Path existed!")
     else:
         os.makedirs(args.output_path)
 
