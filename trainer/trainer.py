@@ -196,7 +196,7 @@ class Trainer(nn.Module):
                     #     'sentiment': [x.pred_rel for x in prediction[k]]
                     # }
                     input_ids = whole_input_ids[k]
-                    sentence = get_text(input_ids, 0, len(input_ids))
+                    sentence = self.args.tokenizer.decode(input_ids)
                     f.write(sentence+'\n')
                     # res = '{"subject": '                    
                     for index in range(0, len(prediction[k])):
