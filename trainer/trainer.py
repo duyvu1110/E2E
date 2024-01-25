@@ -155,9 +155,9 @@ class Trainer(nn.Module):
             res = '['
             for index in range(start_index, end_index):
                 if index != end_index - 1:
-                    res += f'"{index}&&{text[index-start_index]}", '
+                    res += f'"{index}&&{text.split()[index-start_index]}", '
                 else:
-                    res += f'"{index}&&{text[index-start_index]}"]'
+                    res += f'"{index}&&{text.split()[index-start_index]}"]'
             return res
 
         whole_input_ids = []
@@ -185,7 +185,7 @@ class Trainer(nn.Module):
             with open(os.path.join(self.args.output_path, 'preds_three.txt'), 'w', encoding='utf-8') as f:
                 json.dump(pred_texts,f)
 
-        elif self.args.stage == "two": # 五元组抽取写入txt
+        elif self.args.stage == "two":
             with open(os.path.join(self.args.output_path, 'preds_five.txt'), 'w', encoding='utf-8') as f:
                 for k in prediction:
                     # pred_texts[k] = {
