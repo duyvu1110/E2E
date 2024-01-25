@@ -168,7 +168,7 @@ class Trainer(nn.Module):
                 whole_input_ids += input_ids.tolist()
                 if self.args.stage == "one":
                     gold.update(formulate_gold_absa(target, info))
-                    gen_triples = self.model.gen_triples_absa(input_ids, attention_mask, info)
+                    gen_triples = self.model.gen_triples(input_ids, attention_mask, info)
                 else:
                     gold.update(formulate_gold(target, info))
                     gen_triples = self.model.gen_triples(input_ids, attention_mask, info)

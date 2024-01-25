@@ -159,7 +159,7 @@ if __name__ == '__main__':
     parser.add_argument('--bilstm_input_size', help='the size of encoder embedding', type=int, default=300)
     parser.add_argument('--bilstm_hidden_size', help='the size of hidden embedding', type=int, default=512)
     parser.add_argument('--bilstm_num_layers', help='the number of layer', type=int, default=2)
-    parser.add_argument('--stage', type=str, default='one')
+    parser.add_argument('--stage', type=str, default='two')
     parser.add_argument('--mode', help='rhe method of the decoder to using different load', type=str, default='train')
     parser.add_argument('--multi_heads', type=int, help='the heads of classification', default=5) # 5 or 3
     parser.add_argument('--data_type', type=str, default="quintuple")
