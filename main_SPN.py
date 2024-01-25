@@ -163,8 +163,8 @@ if __name__ == '__main__':
     parser.add_argument('--mode', help='rhe method of the decoder to using different load', type=str, default='train')
     parser.add_argument('--multi_heads', type=int, help='the heads of classification', default=5) # 5 or 3
     parser.add_argument('--data_type', type=str, default="quintuple")
-    args = parser.parse_args()
     parser.add_argument('--pretrained', type=str, default='') 
+    args = parser.parse_args()
     # args.output_path = os.path.join(args.output_path, datetime.today().strftime("%Y-%m-%d-%H-%M-%S")+"-"+args.data_path.split('/')[1])
     args.output_path = os.path.join(args.output_path, args.model_name +"-"+ str(args.random_seed)) # three and five have the same folder name
 
