@@ -155,9 +155,9 @@ class Trainer(nn.Module):
             res = '['
             for index in range(start_index, end_index):
                 if index != end_index - 1:
-                    res += f'"{index}&&{text.split()[index-start_index]}", '
+                    res += f'"{index}&&{text.split(" ")[index-start_index]}", '
                 else:
-                    res += f'"{index}&&{text.split()[index-start_index]}"]'
+                    res += f'"{index}&&{text.split(" ")[index-start_index]}"]'
             return res
 
         whole_input_ids = []
