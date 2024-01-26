@@ -174,6 +174,13 @@ class Trainer(nn.Module):
         def clean_sentence(sentence):
             return sentence[:sentence.find('</s>')].strip()
         
+        def remove_dup(arr):
+            unique_list = []
+            for item in arr:
+                if item not in unique_list:
+                    unique_list.append(item)
+            return unique_list
+        
         whole_input_ids = []
         with torch.no_grad():
             batch_size = self.args.batch_size
@@ -190,6 +197,7 @@ class Trainer(nn.Module):
 
         # just output the predicted results
         if self.args.stage == "one" and process=="test": # absa三元组抽取写入txt,only write the results of test
+            prediction = remove_dup(prediction)
             for k in prediction:
                 pred_texts[k] = {
                     'aspect': [get_text(whole_input_ids[k], x.aspect_start_index, x.aspect_end_index) for x in prediction[k]],
