@@ -180,8 +180,8 @@ class Trainer(nn.Module):
 
             for key, value in original_dict.items():
                 if value not in seen_values:
-                    seen_values.add(value)
-                    new_dict[key] = value
+                    seen_values.add(tuple(value))
+                    new_dict[key] = tuple(value)
 
             return new_dict
         
@@ -196,7 +196,7 @@ class Trainer(nn.Module):
                     gen_triples = self.model.gen_triples(input_ids, attention_mask, info)
                 else:
                     gold.update(formulate_gold(target, info))
-                    gen_triples = self.model.gen_triples(input_ids, attention_mask, info)
+                    gen_triples = self.model.gen_triples(input_ids, attention_mask, info) 
                 prediction.update(gen_triples)
 
         # just output the predicted results
