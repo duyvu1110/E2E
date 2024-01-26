@@ -174,12 +174,16 @@ class Trainer(nn.Module):
         def clean_sentence(sentence):
             return sentence[:sentence.find('</s>')].strip()
         
-        def remove_dup(arr):
-            unique_list = []
-            for item in arr:
-                if item not in unique_list:
-                    unique_list.append(item)
-            return unique_list
+        def remove_dup(original_dict):
+            seen_values = set()
+            new_dict = {}
+
+            for key, value in original_dict.items():
+                if value not in seen_values:
+                    seen_values.add(value)
+                    new_dict[key] = value
+
+            return new_dict
         
         whole_input_ids = []
         with torch.no_grad():
