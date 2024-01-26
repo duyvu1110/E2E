@@ -163,12 +163,12 @@ class Trainer(nn.Module):
             offset = 0
             while begin < end:
                 word = ''
-                if tokens[begin][-2:] == '@@':
-                    word = tokens[begin][:-2] + tokens[begin+1]
+                if tokens[begin-start_index][-2:] == '@@':
+                    word = tokens[begin-start_index][:-2] + tokens[begin-start_index+1]
                     begin += 2
                     offset += 1
                 else:
-                    word = tokens[begin]
+                    word = tokens[begin-start_index]
                     begin += 1
                 if begin != end - 1:
                     res += f'"{begin-offset}&&{word}", '
