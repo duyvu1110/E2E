@@ -163,7 +163,7 @@ class Trainer(nn.Module):
             offset = 0
             while begin < end:
                 word = ''
-                if token[begin][-2:] == '@@':
+                if tokens[begin][-2:] == '@@':
                     word = tokens[begin][:-2] + tokens[begin+1]
                     begin += 2
                     offset += 1
