@@ -179,7 +179,7 @@ class Trainer(nn.Module):
             new_dict = {}
 
             for key, value in original_dict.items():
-                if value not in seen_values:
+                if tuple(value) not in seen_values:
                     seen_values.add(tuple(value))
                     new_dict[key] = tuple(value)
 
