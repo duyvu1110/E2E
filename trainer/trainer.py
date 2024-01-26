@@ -153,11 +153,26 @@ class Trainer(nn.Module):
             tokens = tokenizer.convert_ids_to_tokens(input_ids[start_index: end_index])
             # return tokens
             res = '['
-            for index in range(start_index, end_index):
-                if index != end_index - 1:
-                    res += f'"{index}&&{text.split(" ")[index-start_index]}", '
+            # for index in range(start_index, end_index):
+            #     if index != end_index - 1:
+            #         res += f'"{index}&&{text.split(" ")[index-start_index]}", '
+            #     else:
+            #         res += f'"{index}&&{text.split(" ")[index-start_index]}"]'
+            begin = start_index
+            end = end_index
+            offset = 0
+            while begin < end:
+                word = ''
+                if token[begin][-2:] == '@@':
+                    word = token[begin][:-2] + token[begin+1]
+                    begin += 2
+                    offset += 1
                 else:
-                    res += f'"{index}&&{text.split(" ")[index-start_index]}"]'
+                    begin += 1
+                if begin != end - 1:
+                    res += f'"{begin-offset}&&{word}", '
+                else:
+                    res += f'"{begin-offset}&&{word}"]'
             return res
 
         whole_input_ids = []
@@ -188,13 +203,6 @@ class Trainer(nn.Module):
         elif self.args.stage == "two":
             with open(os.path.join(self.args.output_path, 'preds_five.txt'), 'w', encoding='utf-8') as f:
                 for k in prediction:
-                    # pred_texts[k] = {
-                    #     'sub': [get_text(whole_input_ids[k], x.sub_start_index, x.sub_end_index) for x in prediction[k]],
-                    #     'obj': [get_text(whole_input_ids[k], x.obj_start_index, x.obj_end_index) for x in prediction[k]],
-                    #     'aspect': [get_text(whole_input_ids[k], x.aspect_start_index, x.aspect_end_index) for x in prediction[k]],
-                    #     'opinion': [get_text(whole_input_ids[k], x.opinion_start_index, x.opinion_end_index) for x in prediction[k]],
-                    #     'sentiment': [x.pred_rel for x in prediction[k]]
-                    # }
                     input_ids = whole_input_ids[k]
                     sentence = self.args.tokenizer.decode(input_ids[2:])
                     f.write(sentence+'\n')
