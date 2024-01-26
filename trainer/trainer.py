@@ -159,18 +159,18 @@ class Trainer(nn.Module):
             #     else:
             #         res += f'"{index}&&{text.split(" ")[index-start_index]}"]'
             begin = start_index
-            end = end_index
+            end = start_index + len(tokens)
             offset = 0
             while begin < end:
                 word = ''
-                if tokens[begin-start_index][-2:] == '@@':
+                if tokens[begin-start_index][-2:] == '@@' and begin + 1 != end:
                     word = tokens[begin-start_index][:-2] + tokens[begin-start_index+1]
                     begin += 2
                     offset += 1
                 else:
                     word = tokens[begin-start_index]
                     begin += 1
-                if begin != end - 1:
+                if begin != end:
                     res += f'"{begin-offset}&&{word}", '
                 else:
                     res += f'"{begin-offset}&&{word}"]'
