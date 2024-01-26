@@ -174,17 +174,6 @@ class Trainer(nn.Module):
         def clean_sentence(sentence):
             return sentence[:sentence.find('</s>')].strip()
         
-        def remove_dup(original_dict):
-            seen_values = set()
-            new_dict = {}
-
-            for key, value in original_dict.items():
-                if value not in seen_values:
-                    seen_values.add(value)
-                    new_dict[key] = value
-
-            return new_dict
-        
         whole_input_ids = []
         with torch.no_grad():
             batch_size = self.args.batch_size
@@ -197,11 +186,11 @@ class Trainer(nn.Module):
                 else:
                     gold.update(formulate_gold(target, info))
                     gen_triples = self.model.gen_triples(input_ids, attention_mask, info)
-                prediction.update(gen_triples)
+                if gen_triples not in prediction:
+                    prediction.update(gen_triples)
 
         # just output the predicted results
         if self.args.stage == "one" and process=="test": # absa三元组抽取写入txt,only write the results of test
-            prediction = remove_dup(prediction)
             for k in prediction:
                 pred_texts[k] = {
                     'aspect': [get_text(whole_input_ids[k], x.aspect_start_index, x.aspect_end_index) for x in prediction[k]],
