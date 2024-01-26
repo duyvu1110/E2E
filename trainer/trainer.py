@@ -212,24 +212,24 @@ class Trainer(nn.Module):
 
         elif self.args.stage == "two":
             with open(os.path.join(self.args.output_path, 'preds_five.txt'), 'w', encoding='utf-8') as f:
-                prediction = remove_dup(prediction)
-                for k in prediction:
+                temp_pred = remove_dup(prediction)
+                for k in temp_pred:
                     input_ids = whole_input_ids[k]
                     sentence = clean_sentence(self.args.tokenizer.decode(input_ids[2:]))
                     f.write(sentence+'\n')
                     # res = '{"subject": '                    
-                    for index in range(0, len(prediction[k])):
+                    for index in range(0, len(temp_pred[k])):
                         res = '{"subject": '  
-                        res += get_text(input_ids, prediction[k][index].sub_start_index+1, prediction[k][index].sub_end_index+1)
+                        res += get_text(input_ids, temp_pred[k][index].sub_start_index+1, temp_pred[k][index].sub_end_index+1)
                         res += ', "object": '
-                        res += get_text(input_ids, prediction[k][index].obj_start_index+1, prediction[k][index].obj_end_index+1)
+                        res += get_text(input_ids, temp_pred[k][index].obj_start_index+1, temp_pred[k][index].obj_end_index+1)
                         res += ', "aspect": '
-                        res += get_text(input_ids, prediction[k][index].aspect_start_index+1, prediction[k][index].aspect_end_index+1)
+                        res += get_text(input_ids, temp_pred[k][index].aspect_start_index+1, temp_pred[k][index].aspect_end_index+1)
                         res += ', "opinion": '
-                        res += get_text(input_ids, prediction[k][index].opinion_start_index+1, prediction[k][index].opinion_end_index+1)
+                        res += get_text(input_ids, temp_pred[k][index].opinion_start_index+1, temp_pred[k][index].opinion_end_index+1)
                         res += ', "sentiment": '
-                        res += f'"{prediction[k][index].pred_rel}"'
-                        if index != len(prediction[k]) - 1:
+                        res += f'"{temp_pred[k][index].pred_rel}"'
+                        if index != len(temp_pred[k]) - 1:
                             res += '}\n'
                         else:
                             res += '}\n\n'
