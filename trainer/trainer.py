@@ -151,13 +151,8 @@ class Trainer(nn.Module):
             tokenizer = self.args.tokenizer
             text = tokenizer.decode(input_ids[start_index: end_index])
             tokens = tokenizer.convert_ids_to_tokens(input_ids[start_index: end_index])
-            # return tokens
+
             res = '['
-            # for index in range(start_index, end_index):
-            #     if index != end_index - 1:
-            #         res += f'"{index}&&{text.split(" ")[index-start_index]}", '
-            #     else:
-            #         res += f'"{index}&&{text.split(" ")[index-start_index]}"]'
             begin = start_index
             end = start_index + len(tokens)
             offset = 0
@@ -176,6 +171,9 @@ class Trainer(nn.Module):
                     res += f'"{begin-offset}&&{word}"]'
             return res
 
+        def clean_sentence(sentence):
+            return sentence[:sentence.find('</s>')].strip()
+        
         whole_input_ids = []
         with torch.no_grad():
             batch_size = self.args.batch_size
@@ -205,7 +203,7 @@ class Trainer(nn.Module):
             with open(os.path.join(self.args.output_path, 'preds_five.txt'), 'w', encoding='utf-8') as f:
                 for k in prediction:
                     input_ids = whole_input_ids[k]
-                    sentence = self.args.tokenizer.decode(input_ids[2:])
+                    sentence = clean_sentence(self.args.tokenizer.decode(input_ids[2:]))
                     f.write(sentence+'\n')
                     # res = '{"subject": '                    
                     for index in range(0, len(prediction[k])):
