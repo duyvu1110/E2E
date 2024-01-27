@@ -149,17 +149,19 @@ class Trainer(nn.Module):
 
         def get_text(input_ids, start_index, end_index):
             tokenizer = self.args.tokenizer
-            text = tokenizer.decode(input_ids[start_index: end_index])
+            text = tokenizer.decode(input_ids)
             
             tokens = tokenizer.convert_ids_to_tokens(input_ids)
 
+            print(text)
+            print(tokens)
+            
             res = '['
             begin = start_index
             end = end_index
             offset = 0
             word = ''
             while begin < end:
-                word = ''
                 if tokens[begin][-2:] == '@@' and begin + 1 != len(tokens):
                     word += tokens[begin][:-2] + tokens[begin+1]
                     begin += 2
