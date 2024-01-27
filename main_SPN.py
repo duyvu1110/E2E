@@ -150,7 +150,7 @@ if __name__ == '__main__':
     parser.add_argument('--random_seed', type=int, default=2024)
     parser.add_argument('--n_best_size', type=int, default=5)
     parser.add_argument('--max_text_length', type=int, default=256)
-    parser.add_argument('--max_span_length', type=int, default=10)
+    parser.add_argument('--max_span_length', type=int, default=6)
     parser.add_argument('--wirte_param_path', type=str, default='')
     # add
     parser.add_argument("--use_last_hidden_state", type=str, default="True")

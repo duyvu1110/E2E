@@ -66,7 +66,7 @@ def words_to_tokens(tokenizer, doc_tokens, max_text_len): # doc_tokens,表示tex
     assert len(tok_to_orig_index) == len(all_doc_tokens), "length is not equal" # 断言判断，是否相等，不相等，则报错
     # pad到最大长度
     for i in range(max_text_len - len(tok_to_orig_index)):
-        tok_to_orig_index.append(0) # 补齐到最大长度
+        tok_to_orig_index.append(-1) # 补齐到最大长度
         all_doc_tokens.append('<pad>')
     # stop()
     return tok_to_orig_index, all_doc_tokens # tok_to_orig_index: word_list按空格划分的序号，0， 1，2，3，3……
@@ -129,7 +129,6 @@ def process_line(args, text_line, label_line, tokenizer: AutoTokenizer, sample_i
                 'opinion_start_index': get_token_span(view_offset[0] +1, token_offset)[0],
                 'opinion_end_index': get_token_span(view_offset[1] +1, token_offset)[1]+1,
                 'relation': sentiment_label,
-
             })
             # word_to_tokens()得到的是start,end位置， char_to_token得到的是一个固定的值
         else:
