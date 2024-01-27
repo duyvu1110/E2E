@@ -157,19 +157,22 @@ class Trainer(nn.Module):
             begin = start_index
             end = end_index
             offset = 0
+            word = ''
             while begin < end:
                 word = ''
-                if tokens[begin-start_index][-2:] == '@@' and begin + 1 != len(tokens):
-                    word = tokens[begin][:-2] + tokens[begin+1]
+                if tokens[begin][-2:] == '@@' and begin + 1 != len(tokens):
+                    word += tokens[begin][:-2] + tokens[begin+1]
                     begin += 2
                     offset += 1
                 else:
-                    word = tokens[begin]
+                    word += tokens[begin]
                     begin += 1
                 if begin != end:
                     res += f'"{begin-offset}&&{word}", '
+                    word = ''
                 else:
                     res += f'"{begin-offset}&&{word}"]'
+                    word = ''
             return res
 
         def clean_sentence(sentence):
