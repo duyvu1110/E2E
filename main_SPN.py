@@ -191,7 +191,7 @@ if __name__ == '__main__':
     model = SetPred4RE(args, 8).to(args.device)
     trainer = Trainer(model, data, args)
     trainer.train_model()
-
+    
     with open(os.path.join(args.output_path,'params.txt'),"a") as f:
         print("=============================================", file=f)
         print("End time is {}".format(datetime.today().strftime("%Y-%m-%d-%H-%M-%S")), file=f)
