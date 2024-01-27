@@ -51,7 +51,7 @@ def words_to_tokens(tokenizer, doc_tokens, max_text_len): # doc_tokens,表示tex
     all_doc_tokens: tokenizer之后的tokens
     """
     tok_to_orig_index = []
-    all_doc_tokens = ['[unused1]', '<s>']
+    all_doc_tokens = ['<s>']
     for (i, token) in enumerate(doc_tokens): # token-->word
         # orig_to_tok_index.append(len(all_doc_tokens))
         sub_tokens = tokenizer.tokenize(token)
