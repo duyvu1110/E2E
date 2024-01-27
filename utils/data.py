@@ -60,7 +60,7 @@ def words_to_tokens(tokenizer, doc_tokens, max_text_len): # doc_tokens,表示tex
             tok_to_orig_index.append(i) # i 实际word的index
             all_doc_tokens.append(sub_token) # sub_token-->token
 
-    tok_to_orig_index = [0]+[num + 2 for num in tok_to_orig_index] # 添加cls
+    tok_to_orig_index = [0]+[num + 1 for num in tok_to_orig_index] # 添加cls
     tok_to_orig_index.append(tok_to_orig_index[-1] + 1) # 添加sep
     all_doc_tokens.append('</s>')
     assert len(tok_to_orig_index) == len(all_doc_tokens), "length is not equal" # 断言判断，是否相等，不相等，则报错
