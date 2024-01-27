@@ -93,6 +93,7 @@ def generate_span(start_logits, end_logits, info, args):
     end_probs = end_probs.cpu().tolist()
     for (start_prob, end_prob, sent_idx) in zip(start_probs, end_probs, sent_idxes):
         output[sent_idx] = {}
+        
         for triple_id in range(args.num_generated_triples):
             predictions = []
             start_indexes = _get_best_indexes(start_prob[triple_id], args.n_best_size)
@@ -167,7 +168,6 @@ def generate_triple(output, info, args, num_classes):
             pred_aspect = pred_aspect_ent_dict[sent_idx][triple_id]
             pred_opinion = pred_opinion_ent_dict[sent_idx][triple_id]
             triple = generate_strategy(pred_rel, pred_sub, pred_obj, pred_aspect, pred_opinion, num_classes, _Pred_Triple)
-            print(triple)
             if triple:
                 triples[sent_idx].append(triple)
     # print(triples)
